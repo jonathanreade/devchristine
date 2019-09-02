@@ -99,7 +99,9 @@ final class OCEANWP_Theme_Class {
 			add_action( 'wp_head', array( 'OCEANWP_Theme_Class', 'html5_shiv' ) );
 
 			// Outputs custom CSS to the head
-			add_action( 'wp_head', array( 'OCEANWP_Theme_Class', 'custom_css' ), 9999 );
+			add_action( 'wp_head', array( 'OCEANWP_Theme_Class', 'custom_css' ), 9998 );
+
+			add_action( 'wp_head', array( 'OCEANWP_Theme_Class', 'railyard_css' ), 9999 );
 
 			// Minify the WP custom CSS because WordPress doesn't do it by default
 			add_filter( 'wp_get_custom_css', array( 'OCEANWP_Theme_Class', 'minify_custom_css' ) );
@@ -474,7 +476,7 @@ final class OCEANWP_Theme_Class {
 
 		// Load minified js
 		wp_enqueue_script( 'oceanwp-main', $dir .'main.min.js', array( 'jquery' ), $theme_version, true );
-		
+
 		// Localize array
 		wp_localize_script( 'oceanwp-main', 'oceanwpLocalize', $localize_array );
 
@@ -647,7 +649,7 @@ final class OCEANWP_Theme_Class {
 	 * @since 1.0.0
 	 */
 	public static function custom_css( $output = NULL ) {
-			    
+
 	    // Add filter for adding custom css via other functions
 		$output = apply_filters( 'ocean_head_css', $output );
 
@@ -675,6 +677,11 @@ final class OCEANWP_Theme_Class {
 
 		}
 
+	}
+
+	function railyard_css() {
+		wp_register_style('railyard_scss_styles', get_template_directory_uri() . '/style.css', array(), '1.0', 'all');
+		wp_enqueue_style('railyard_scss_styles');
 	}
 
 	/**
@@ -708,10 +715,10 @@ final class OCEANWP_Theme_Class {
 
 	    // Minified the Custom CSS
 		$output .= oceanwp_minify_css( $output_custom_css );
-			
+
 		// We will probably need to load this file
 		require_once( ABSPATH . 'wp-admin' . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_SEPARATOR . 'file.php' );
-		
+
 		global $wp_filesystem;
 		$upload_dir = wp_upload_dir(); // Grab uploads folder array
 		$dir = trailingslashit( $upload_dir['basedir'] ) . 'oceanwp'. DIRECTORY_SEPARATOR; // Set storage directory path
@@ -747,9 +754,9 @@ final class OCEANWP_Theme_Class {
 		$output .= oceanwp_minify_css( $output_custom_css );
 
 		// Render CSS from the custom file
-		if ( ! isset( $wp_customize ) && file_exists( $upload_dir['basedir'] .'/oceanwp/custom-style.css' ) && ! empty( $output ) ) { 
-		    wp_enqueue_style( 'oceanwp-custom', trailingslashit( $upload_dir['baseurl'] ) . 'oceanwp/custom-style.css', false, null );	    			
-		}		
+		if ( ! isset( $wp_customize ) && file_exists( $upload_dir['basedir'] .'/oceanwp/custom-style.css' ) && ! empty( $output ) ) {
+		    wp_enqueue_style( 'oceanwp-custom', trailingslashit( $upload_dir['baseurl'] ) . 'oceanwp/custom-style.css', false, null );
+		}
 	}
 
 	/**
@@ -763,7 +770,7 @@ final class OCEANWP_Theme_Class {
 		if ( 'file' != get_theme_mod( 'ocean_customzer_styling', 'head' ) ) {
 			return;
 		}
-		
+
 		global $wp_customize;
 
 		// Disable Custom CSS in the frontend head
@@ -937,12 +944,12 @@ new OCEANWP_Theme_Class;
 
 
 // Disable page title on single posts and blog home page
-function disable_title( $return ) { 
+function disable_title( $return ) {
     if ( is_singular( 'post') || is_home() ) {
         $return = false;
-    } 
+    }
     // Return
-    return $return;    
+    return $return;
 }
 add_filter( 'ocean_display_page_header', 'disable_title' );
 
@@ -958,7 +965,7 @@ function redirect_to_specific_page() {
 
 if ( is_page('my-account') && ! is_user_logged_in() ) {
 
-wp_redirect( 'http://dossier5282.wpengine.com/sign-in/', 301 ); 
+wp_redirect( 'http://dossier5282.wpengine.com/sign-in/', 301 );
   exit;
     }
 }
