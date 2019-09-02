@@ -18,7 +18,17 @@ class WOOCS_STATISTIC {
 
         global $wpdb;
         $this->table = $wpdb->prefix . $this->table;
-
+        
+        add_action('admin_print_scripts', function() {
+            if (isset($_GET['page']) AND isset($_GET['tab'])) {
+                if ($_GET['page'] == 'wc-settings' AND $_GET['tab'] == 'woocs') {
+                    wp_dequeue_script('iris');
+                    wp_enqueue_script('woocs-stat-google-chart-lib', WOOCS_LINK . 'js/chart.min.js', array('jquery'), WOOCS_VERSION);
+                    wp_enqueue_script('woocs-stat-google-charts', WOOCS_LINK . 'js/statistic.js', array('woocs-stat-google-chart-lib'), WOOCS_VERSION);
+                }
+            }
+        }, 9);
+        
         add_action('admin_head', function() {
             if (isset($_GET['page']) AND isset($_GET['tab'])) {
                 if ($_GET['page'] == 'wc-settings' AND $_GET['tab'] == 'woocs') {
@@ -31,8 +41,7 @@ class WOOCS_STATISTIC {
                     //***
 
                     wp_dequeue_script('iris'); //as it in conflict with chart.min.js
-                    wp_enqueue_script('woocs-stat-google-chart-lib', WOOCS_LINK . 'js/chart.min.js', array('jquery'), WOOCS_VERSION);
-                    wp_enqueue_script('woocs-stat-google-charts', WOOCS_LINK . 'js/statistic.js', array('woocs-stat-google-chart-lib'), WOOCS_VERSION);
+
                 }
             }
         }, 999);

@@ -1,11 +1,11 @@
 === WOOCS - Currency Switcher for WooCommerce. Multi Currency and Multi Pay for WooCommerce ===
 Contributors: RealMag777
-Donate link: http://codecanyon.net/item/woocommerce-currency-switcher/8085217?ref=realmag777
+Donate link: https://pluginus.net/affiliate/woocommerce-currency-switcher
 Tags: woocommerce, currency, switcher, currency switcher, converter
 Requires at least: 4.1.0
 Tested up to: 5.2
 Requires PHP: 5.4
-Stable tag: 1.2.9.1
+Stable tag: 1.3.0
 
 WooCommerce Currency Switcher is WooCommerce multi currency plugin that allows to switch products prices and get their rates converted in the real time!
 
@@ -34,7 +34,7 @@ Also the plugin has ajaxed shortcode/widget of [currency converter](https://demo
 
 &#9989;&nbsp;**Checkout**: the customers are allowed to pay in their selected(preferred) currency. This feature has name 'Is multiple allowed' and should be enabled in the plugin settings.
 
-&#9989;&nbsp;**Rates**: 7 currencies aggregators for automatic rates changing. Also admin can set rates manually if it's necessary! Optionally admin can be noticed about currency rates changes by email.
+&#9989;&nbsp;**Rates**: More than 7 currencies aggregators for automatic rates changing. Also admin can set rates manually if it's necessary! Optionally admin can be noticed about currency rates changes by email.
 
 &#9989;&nbsp;**Rates auto update**: update currency rates hourly, twice daily, daily, weekly, monthly, each 5 minutes,  each 15 minutes,  each 30 minutes,  each 45 minutes. Or you can disable it and set your own currency rates by hands!
 
@@ -116,7 +116,7 @@ Note: for today design of the plugin is different of the video (is improved), se
 * Unlimited count of currencies (in the free version 2 currencies available)
 
 
-**Get Premium version of the plugin**: [on Codecanyon](http://codecanyon.net/item/woocommerce-currency-switcher/8085217?ref=realmag777)
+**Get Premium version of the plugin**: [on Codecanyon](https://pluginus.net/affiliate/woocommerce-currency-switcher)
 
 
 ### Make your site more profitable with next powerful scripts:
@@ -172,6 +172,12 @@ R: [https://currency-switcher.com/category/faq/](https://currency-switcher.com/c
 13. Fixed minimum and maximum coupon verification amount for each currency (woocommerce > v.3.3.1)
 
 == Changelog ==
+
+= 1.3.0 =
+* some little fixes
+* new currency agregator added: bnr.ro
+* new currency agregator added: currencylayer
+* new currency agregator added: open exchange rate
 
 = 1.2.9.1 =
 * 1 hot fix for hook raw_woocommerce_price
@@ -338,5 +344,5 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 
 
 == Upgrade Notice ==
-[Look here for ADVANCED version of the plugin](http://codecanyon.net/item/woocommerce-currency-switcher/8085217?ref=realmag777)
+[Look here for ADVANCED version of the plugin](https://pluginus.net/affiliate/woocommerce-currency-switcher)
 

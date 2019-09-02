@@ -398,7 +398,7 @@ msgstr ""
 
 #. Text in function
 #: woocommerce-currency-switcher/classes/woocs_after_33.php:4384
-msgid "Hello! Looks like you using <b>WooCommerce Currency Switcher</b> for some time and I hope this software helped you with your business. If you happy with the plugin functionality and like Currency Switcher - rate please WOOCS with 5-stars, also share your opinion and ideas with us. Thank you!<br /> P.S. If you have troubles you can always ask %s about help. Thank you y bud zdrav!"
+msgid "Hello! Looks like you using <b>WooCommerce Currency Switcher</b> for some time and I hope this software helped you with your business. If you happy with the plugin functionality and like Currency Switcher - rate please WOOCS with 5-stars, also share your opinion and ideas with us. Thank you!<br /> P.S. If you have troubles you can always ask %s about help. Thank you!"
 msgstr ""
 
 #. Text in function

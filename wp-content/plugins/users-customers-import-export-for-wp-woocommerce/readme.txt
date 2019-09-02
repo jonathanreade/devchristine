@@ -4,7 +4,7 @@ Donate link: https://www.webtoffee.com/plugins/
 Tags: Export Users to CSV, Import Users from CSV, woocommerce export customers, user export, export import users,  woocommerce import customers, woocommerce export customer email
 Requires at least: 3.0.1
 Tested up to: 5.2.2
-Stable tag: 1.3.0
+Stable tag: 1.3.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -19,7 +19,7 @@ Import users and export users made fast and simple! Import Export WordPress User
 
  &#128312; Users Export - Export Users to CSV file.</li>
  &#128312; Users import - Import Users from CSV format to WordPress/WooCommerce Store.
- &#128312; Tested OK with WooCommerce 3.6.5
+ &#128312; Tested OK with WooCommerce 3.7.0
  &#128312; Tested OK with PHP 7.3.5
 
 Highlights: WordPress Users Export, WordPress Users CSV Import Suite, Export WordPress Users to CSV. Pro Version supports export and import of all additional user meta like WooCommerce details.
@@ -152,9 +152,11 @@ By default, admin and store manager are given access to export users. Please vis
 
 == Changelog ==
 
-= 1.3.0 =
-* Bug fixes.
-* Tested OK with WC 3.6.5 and WP 5.2.2
+= 1.3.2 =
+* CSV Injection was fixed – reported by one of our user (Javier Olmedo) CVE-2019-15092
+= 1.3.1 =
+* Tested OK with WC 3.7.0
+* Plugin update information hook added.
 = 1.2.9 =
 * Tested OK with WC 3.6.3 and WP 5.2.1
 = 1.2.8 =
@@ -229,6 +231,5 @@ By default, admin and store manager are given access to export users. Please vis
 
 == Upgrade Notice ==
 
-= 1.3.0 =
-* Bug fixes.
-* Tested OK with WC 3.6.5 and WP 5.2.2
+= 1.3.2 =
+* CSV Injection was fixed – reported by one of our user (Javier Olmedo) CVE-2019-15092

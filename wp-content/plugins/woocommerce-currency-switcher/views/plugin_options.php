@@ -66,6 +66,9 @@
                 'free_converter' => 'The Free Currency Converter',
                 'fixer' => 'Fixer',
                 'cryptocompare' => 'CryptoCompare',
+                'ron' => 'www.bnr.ro',
+                'currencylayer' => 'Сurrencylayer',
+                'openexchangerates'=>'Open exchange rates',
             ),
             'desc_tip' => true
         ),
@@ -219,7 +222,7 @@
                         </li>
                     <?php endif; ?>
 
-                    <?php if ($this->statistic->can_collect()): ?>
+                    <?php if ($this->statistic AND  $this->statistic->can_collect()): ?>
                         <li>
                             <a href="#tabs-stat" onclick="return woocs_stat_activate_graph();">
                                 <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
@@ -558,16 +561,26 @@
                                     &nbsp;<a href="https://currency-switcher.com/video-tutorials#video_zh_LVqKADBU" target="_blank" class="button"><?php esc_html_e('a hint', 'woocommerce-currency-switcher') ?></a>
                                 </td>
                             </tr>
-
-
-
                             <tr valign="top">
                                 <th scope="row" class="titledesc">
                                     <label for="woocs_collect_statistic" style="color: red;"><?php esc_html_e('Statistic', 'woocommerce-currency-switcher') ?></label>
-                                    <span class="woocommerce-help-tip woocs_settings_user_tip" data-tip="<?php esc_html_e("Collect currencies switching statistic for business purposes. No any private data of customers collects, only currency, country and time of switching. Also statistic for order currencies is there.", 'woocommerce-currency-switcher') ?>"></span>
+                                    <span class="woocommerce-help-tip" data-tip="<?php esc_html_e('Collect currencies switching statistic for business purposes. No any private data of customers collects, only currency, country and time of switching. Also statistic for order currencies is there.', 'woocommerce-currency-switcher') ?>"></span>
                                 </th>
                                 <td class="forminp forminp-select">
-                                    <?php echo draw_switcher23('woocs_collect_statistic', get_option('woocs_collect_statistic', 0)); ?>
+                                    <?php
+                                    $enable_stat = array(
+                                        0 => __('No', 'woocommerce-currency-switcher'),
+                                        1 => __('Yes', 'woocommerce-currency-switcher')
+                                    );
+                                    $collect_statistic = get_option('woocs_collect_statistic', 0);
+                                    ?>
+                                    <select name="woocs_collect_statistic" id="woocs_collect_statistic" class="chosen_select enhanced woocs_settings_dd" tabindex="-1" title="<?php esc_html_e('Statistic', 'woocommerce-currency-switcher') ?>">
+
+                                        <?php foreach ($enable_stat as $val => $title): ?>
+                                            <option value="<?php echo $val ?>" <?php echo selected($collect_statistic, $val) ?>><?php echo $title ?></option>
+                                        <?php endforeach; ?>
+
+                                    </select>
                                 </td>
                             </tr>
 
@@ -907,7 +920,7 @@
 
 
 
-                <?php if ($this->statistic->can_collect()): ?>
+                <?php if ($this->statistic AND $this->statistic->can_collect()): ?>
 
                     <?php $this->statistic->install_table(); ?>
 
@@ -1026,8 +1039,8 @@
                     <h3><?php esc_html_e("More power for your shop", 'woocommerce-currency-switcher') ?></h3>
 
 
-                    <a href="http://codecanyon.net/item/woof-woocommerce-products-filter/11498469?ref=realmag777" target="_blank"><img src="<?php echo WOOCS_LINK ?>img/woof_banner.png" /></a>&nbsp;
-                    <a href="https://codecanyon.net/item/woobe-woocommerce-bulk-editor-professional/21779835?ref=realmag777" target="_blank"><img width="300" src="<?php echo WOOCS_LINK ?>img/woobe_banner.png" /></a>
+                    <a href="https://pluginus.net/affiliate/woocommerce-products-filter" target="_blank"><img src="<?php echo WOOCS_LINK ?>img/woof_banner.png" /></a>&nbsp;
+                    <a href="https://pluginus.net/affiliate/woocommerce-bulk-editor" target="_blank"><img width="300" src="<?php echo WOOCS_LINK ?>img/woobe_banner.png" /></a>
 
 
 
@@ -1036,7 +1049,7 @@
                         <div id="plugin_warning" >
                             <div class="plugin_warning_head"><strong class="woocs_settings_red" >ATTENTION MESSAGE FROM THE PLUGIN AUTHOR TO ALL USERS WHO USES PIRATE VERSION OF THE PLUGIN! IF YOU BOUGHT IT - DO NOT READ AND IGNORE IT!</strong>!<br></div>
                             <br />
-                            GET YOUR COPY OF THE PLUGIN <em> <span class="woocs_settings_underline"><span class="woocs_settings_ff"><strong>ONLY</strong></span></span></em> FROM <a href="http://codecanyon.net/item/woocommerce-currency-switcher/8085217?ref=realmag777" target="_blank"><span class="woocs_settings_green"><strong>CODECANYON.NET</strong></span></a> OR <span class="woocs_settings_green"><strong><a href="https://wordpress.org/plugins/woocommerce-currency-switcher/" target="_blank">WORDPRESS.ORG</a></strong></span> IF YOU DO NOT WANT TO BE AN AFFILIATE OF ANY VIRUS SITE.<br>
+                            GET YOUR COPY OF THE PLUGIN <em> <span class="woocs_settings_underline"><span class="woocs_settings_ff"><strong>ONLY</strong></span></span></em> FROM <a href="https://pluginus.net/affiliate/woocommerce-currency-switcher" target="_blank"><span class="woocs_settings_green"><strong>CODECANYON.NET</strong></span></a> OR <span class="woocs_settings_green"><strong><a href="https://wordpress.org/plugins/woocommerce-currency-switcher/" target="_blank">WORDPRESS.ORG</a></strong></span> IF YOU DO NOT WANT TO BE AN AFFILIATE OF ANY VIRUS SITE.<br>
                             <br>
                             <strong>DID YOU CATCH A VIRUS DOWNLOADING THE PLUGIN FROM ANOTHER (PIRATE) SITES<span class="woocs_settings_ff">?</span></strong> THIS IS YOUR TROUBLES AND <em>DO NOT WRITE TO SUPPORT THAT GOOGLE DOWN YOUR SITE TO ZERO BECAUSE OF &nbsp;ANY VIRUS</em>!!<br>
                             <br>
@@ -1069,34 +1082,39 @@
 
 
     <b class="woocs_hint" ><?php esc_html_e('Hint', 'woocommerce-currency-switcher'); ?>:</b>&nbsp;<?php esc_html_e('If you want let your customers pay in their selected currency in tab Advanced set the option Is multiple allowed to Yes.', 'woocommerce-currency-switcher'); ?><br />
-    <b class="woocs_hint" ><?php esc_html_e('Hint', 'woocommerce-currency-switcher'); ?>:</b>&nbsp;<?php esc_html_e('Get free API key for:', 'woocommerce-currency-switcher'); ?>
+    <b class="woocs_hint" ><?php esc_html_e('Note', 'woocommerce-currency-switcher'); ?>:</b>&nbsp;<?php esc_html_e('Get free API key for:', 'woocommerce-currency-switcher'); ?>
     &nbsp;<a href="https://free.currencyconverterapi.com/free-api-key"  target="_blank"><?php esc_html_e('The Free Currency Converter', 'woocommerce-currency-switcher'); ?></a>
     <?php esc_html_e('OR', 'woocommerce-currency-switcher'); ?>
     &nbsp;<a href="https://fixer.io/signup/free" target="_blank"><?php esc_html_e('Fixer', 'woocommerce-currency-switcher'); ?></a><br />
 
-
+    <b class="woocs_hint" ><?php esc_html_e('Note', 'woocommerce-currency-switcher'); ?>:</b>&nbsp;<?php esc_html_e('Get API key for:', 'woocommerce-currency-switcher'); ?> 
+    &nbsp;<a href="https://openexchangerates.org/signup"  target="_blank"><?php esc_html_e('Open exchange rates', 'woocommerce-currency-switcher'); ?></a>
+    &nbsp;<?php esc_html_e('OR', 'woocommerce-currency-switcher'); ?>
+    &nbsp;<a href="https://currencylayer.com/product"  target="_blank"><?php esc_html_e('Currencylayer', 'woocommerce-currency-switcher'); ?></a>
+    <br />
+    
     <b class="woocs_hint" ><?php esc_html_e('Note', 'woocommerce-currency-switcher'); ?>:</b>&nbsp;<?php esc_html_e("If WOOCS settings panel looks incorrect or you have JavaScript errors (after update) - firstly", 'woocommerce-currency-switcher') ?> <a href="https://pluginus.net/how-to-reset-page-cache-in-the-browser/" target="_blank" style="color: red;"><?php esc_html_e("reset the browser cache", 'woocommerce-currency-switcher') ?></a><br />
 
     <?php if ($WOOCS->notes_for_free): ?>
         <hr />
 
-        <div ><i>In the free version of the plugin <b class="woocs_settings_red">you can operate with 2 ANY currencies only</b>! If you want to use more currencies <a href="https://codecanyon.net/item/woocommerce-currency-switcher/8085217?ref=realmag777" target="_blank">you can make upgrade to the premium version</a> of the plugin</i></div><br />
+        <div ><i>In the free version of the plugin <b class="woocs_settings_red">you can operate with 2 ANY currencies only</b>! If you want to use more currencies <a href="https://pluginus.net/affiliate/woocommerce-currency-switcher" target="_blank">you can make upgrade to the premium version</a> of the plugin</i></div><br />
 
         <table class="woocs_settings_promotion" >
             <tr>
                 <td >
                     <h3 class="woocs_settings_red"><?php esc_html_e("UPGRADE to Full version", 'woocommerce-currency-switcher') ?>:</h3>
-                    <a href="http://codecanyon.net/item/woocommerce-currency-switcher/8085217?ref=realmag777" target="_blank"><img width="300" src="<?php echo WOOCS_LINK ?>img/woocs_banner.png" alt="<?php esc_html_e("full version of the plugin", 'woocommerce-currency-switcher'); ?>" /></a>
+                    <a href="https://pluginus.net/affiliate/woocommerce-currency-switcher" target="_blank"><img width="300" src="<?php echo WOOCS_LINK ?>img/woocs_banner.png" alt="<?php esc_html_e("full version of the plugin", 'woocommerce-currency-switcher'); ?>" /></a>
                 </td>
 
                 <td >
                     <h3><?php esc_html_e("WOOF - WooCommerce Products Filter", 'woocommerce-currency-switcher') ?>:</h3>
-                    <a href="http://codecanyon.net/item/woof-woocommerce-products-filter/11498469?ref=realmag777" target="_blank"><img src="<?php echo WOOCS_LINK ?>img/woof_banner.png" alt="<?php esc_html_e("WOOF - WooCommerce Products Filter", 'woocommerce-currency-switcher'); ?>" /></a>
+                    <a href="https://pluginus.net/affiliate/woocommerce-products-filter" target="_blank"><img src="<?php echo WOOCS_LINK ?>img/woof_banner.png" alt="<?php esc_html_e("WOOF - WooCommerce Products Filter", 'woocommerce-currency-switcher'); ?>" /></a>
                 </td>
 
                 <td >
                     <h3><?php esc_html_e("WOOBE - WooCommerce Bulk Editor Professional", 'woocommerce-currency-switcher') ?>:</h3>
-                    <a href="https://bulk-editor.com/" target="_blank"><img src="<?php echo WOOCS_LINK ?>img/woobe_banner.png" width="300" alt="<?php esc_html_e("WOOBE - WooCommerce Bulk Editor Professional", 'woocommerce-currency-switcher'); ?>" /></a>
+                    <a href="https://pluginus.net/affiliate/woocommerce-bulk-editor" target="_blank"><img src="<?php echo WOOCS_LINK ?>img/woobe_banner.png" width="300" alt="<?php esc_html_e("WOOBE - WooCommerce Bulk Editor Professional", 'woocommerce-currency-switcher'); ?>" /></a>
                 </td>
 
             </tr>
@@ -1217,6 +1235,7 @@ function woocs_print_currency($_this, $currency) {
         ?>
         <input type="hidden" value="<?php echo $flag ?>" class="woocs_flag_input" name="woocs_flag[]" />
         <a href="#" class="woocs_flag help_tip woocs_settings_flag_tip" data-tip="<?php esc_html_e("Click to select the flag", 'woocommerce-currency-switcher'); ?>" ><img src="<?php echo $flag ?>"  alt="<?php esc_html_e("Flag", 'woocommerce-currency-switcher'); ?>" /></a>
+        &nbsp;<a href="#" class="woocs_del_currency help_tip" data-tip="<?php esc_html_e("remove", 'woocommerce-currency-switcher'); ?>" ><span class="woocs-btn-delete dashicons-before dashicons-dismiss"></span></a>
         &nbsp;<a href="#" class="help_tip woocs_settings_move" data-tip="<?php esc_html_e("drag and drope", 'woocommerce-currency-switcher'); ?>"><img  src="<?php echo WOOCS_LINK ?>img/move.png" alt="<?php esc_html_e("move", 'woocommerce-currency-switcher'); ?>" /></a>
     </li>
     <?php

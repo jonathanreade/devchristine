@@ -1,4 +1,4 @@
-/*! elementor - v2.6.5 - 18-07-2019 */
+/*! elementor - v2.6.8 - 07-08-2019 */
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -434,7 +434,7 @@ __webpack_require__(26);
 
   var ElementorGutenbergApp = {
     cacheElements: function cacheElements() {
-      this.isElementorMode = '1' === ElementorGutenbergSettings.isElementorMode;
+      this.isElementorMode = ElementorGutenbergSettings.isElementorMode;
       this.cache = {};
       this.cache.$gutenberg = $('#editor');
       this.cache.$switchMode = $($('#elementor-gutenberg-button-switch-mode').html());
