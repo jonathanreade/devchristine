@@ -74,7 +74,7 @@ foreach ($all_currencies as $key => $currency) {
 
 //***
 
-$height = (count($options) - 2) * 60 + 200;
+$height = (count($options) - 2) * 65 + 200;
 ?>
 
 

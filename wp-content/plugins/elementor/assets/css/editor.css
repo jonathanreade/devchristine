@@ -1,4 +1,4 @@
-/*! elementor - v2.6.5 - 18-07-2019 */
+/*! elementor - v2.6.8 - 07-08-2019 */
 @charset "UTF-8";
 *, :before, :after {
   margin: 0;
@@ -112,13 +112,15 @@ body {
   .select2-container.select2-container--focus .select2-selection--multiple {
     border-color: #a4afb7; }
 
+.select2-results__option[aria-selected=true] {
+  color: #495157; }
+  .select2-results__option[aria-selected=true]:not(.select2-results__option--highlighted) {
+    background-color: initial; }
+
 .select2-dropdown {
   border-color: #a4afb7; }
   .select2-dropdown .select2-search__field {
     outline: none; }
-
-.select2-selection__placeholder {
-  color: #a4afb7; }
 
 #elementor-fatal-error-dialog button.dialog-ok {
   color: #71d7f7; }
@@ -1024,10 +1026,10 @@ select {
     .elementor-panel .elementor-panel-navigation .elementor-panel-navigation-tab {
       display: table-cell; }
       .elementor-panel .elementor-panel-navigation .elementor-panel-navigation-tab.elementor-active {
-        background-image: -webkit-gradient(linear, left top, left bottom, from(#f3f3f3), to(#fff));
-        background-image: -webkit-linear-gradient(top, #f3f3f3, #fff);
-        background-image: -o-linear-gradient(top, #f3f3f3, #fff);
-        background-image: linear-gradient(to bottom, #f3f3f3, #fff);
+        background-image: -webkit-gradient(linear, left top, left bottom, from(#f1f3f5), to(#fff));
+        background-image: -webkit-linear-gradient(top, #f1f3f5, #fff);
+        background-image: -o-linear-gradient(top, #f1f3f5, #fff);
+        background-image: linear-gradient(to bottom, #f1f3f5, #fff);
         border-bottom: 3px solid #D30C5C; }
       .elementor-panel .elementor-panel-navigation .elementor-panel-navigation-tab a {
         display: block;
@@ -3135,11 +3137,11 @@ body.elementor-editor-preview #elementor-mode-switcher {
   width: 115px;
   cursor: pointer; }
   .elementor-template-library-menu-item.elementor-active {
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#f3f3f3), to(#fff));
-    background-image: -webkit-linear-gradient(top, #f3f3f3, #fff);
-    background-image: -o-linear-gradient(top, #f3f3f3, #fff);
-    background-image: linear-gradient(to bottom, #f3f3f3, #fff);
-    border-bottom: 3px solid #9b0a46; }
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#f1f3f5), to(#fff));
+    background-image: -webkit-linear-gradient(top, #f1f3f5, #fff);
+    background-image: -o-linear-gradient(top, #f1f3f5, #fff);
+    background-image: linear-gradient(to bottom, #f1f3f5, #fff);
+    border-bottom: 3px solid #D30C5C; }
 
 #elementor-template-library-header-actions {
   display: -webkit-box;
@@ -4557,6 +4559,9 @@ body:not(.elementor-device-desktop) #elementor-notice-bar {
   -webkit-justify-content: space-between;
       -ms-flex-pack: justify;
           justify-content: space-between; }
+  @media (max-width: 1439px) {
+    #elementor-icons-manager__upload {
+      margin: 20px 25px; } }
   #elementor-icons-manager__upload__title {
     color: #a4afb7;
     font-size: 11px;

@@ -6,8 +6,8 @@
   Description: Export and Import User/Customers details From and To your WordPress/WooCommerce.
   Author: WebToffee
   Author URI: https://www.webtoffee.com/product/wordpress-users-woocommerce-customers-import-export/
-  Version: 1.3.0
-  WC tested up to: 3.6.5
+  Version: 1.3.2
+  WC tested up to: 3.7.0
   Text Domain: users-customers-import-export-for-wp-woocommerce
   License: GPLv3
   License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -36,7 +36,7 @@ if( !defined('WF_CUSTOMER_IMP_EXP_ID') )
 
 if( !defined('WF_CUSTOMER_IMP_EXP_VERSION') )
 {
-	define("WF_CUSTOMER_IMP_EXP_VERSION", "1.3.0");
+	define("WF_CUSTOMER_IMP_EXP_VERSION", "1.3.2");
 }
 
 
@@ -255,3 +255,18 @@ if (!class_exists('WF_Customer_Import_Export_CSV')) :
     endif;
 
 new WF_Customer_Import_Export_CSV();
+
+/*
+ *  Displays update information for a plugin. 
+ */
+function wt_users_customers_import_export_for_wp_woocommerce_update_message( $data, $response )
+{
+    if(isset( $data['upgrade_notice']))
+    {
+        printf(
+        '<div class="update-message wt-update-message">%s</div>',
+           $data['upgrade_notice']
+        );
+    }
+}
+add_action( 'in_plugin_update_message-users-customers-import-export-for-wp-woocommerce/users-customers-import-export-for-wp-woocommerce.php', 'wt_users_customers_import_export_for_wp_woocommerce_update_message', 10, 2 );

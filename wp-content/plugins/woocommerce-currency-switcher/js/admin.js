@@ -79,13 +79,16 @@ jQuery(function ($) {
         handle: '.woocs_settings_move img'
     });
 
-   jQuery('#woocs_add_currency').life('click', function () {
-
-        alert('Hello! Free version of WOOCS can operate only with 2 any currencies. If your shop need more currencies please review buying of the Premium version of the plugin (see links below). Thank you!');
-
+    jQuery('#woocs_add_currency').life('click', function () {
+        jQuery('#woocs_list').append(jQuery('#woocs_item_tpl').html());
         return false;
-    });    
-   
+    });
+    jQuery('.woocs_del_currency').life('click', function () {
+        jQuery(this).parents('li').hide(220, function () {
+            jQuery(this).remove();
+        });
+        return false;
+    });
 
     jQuery('.woocs_is_etalon').life('click', function () {
         jQuery('.woocs_is_etalon').next('input[type=hidden]').val(0);
@@ -216,7 +219,7 @@ woocs_auto_hide_color();
 
 function woocs_check_api_key_field() {
     var aggregator = jQuery("#woocs_currencies_aggregator").val();
-    var is_api = ['free_converter', 'fixer', 'currencylayer'];
+    var is_api = ['free_converter', 'fixer', 'currencylayer','openexchangerates'];
     if (jQuery.inArray(aggregator, is_api) != -1) {
         jQuery("#woocs_aggregator_key").parents("tr").show();
     } else {

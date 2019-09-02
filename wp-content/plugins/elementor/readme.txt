@@ -4,7 +4,7 @@ Tags: page builder, editor, landing page, drag-and-drop, elementor, visual edito
 Requires at least: 4.7
 Tested up to: 5.2
 Requires PHP: 5.4
-Stable tag: 2.6.5
+Stable tag: 2.6.8
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -220,6 +220,31 @@ No. Elementor supports WordPress 4.7 or greater, and is compatible with PHP 5.4 
 7. **Shape Divider.** Choose from a wide array of shape dividers and separate your sections in endless ways, that until now were simply not possible.
 
 == Changelog ==
+
+= 2.6.8 - 2019-08-07 =
+* Tweak: Added SVG import/export support to Icons control
+* Fix: Empty `caps` while checking user `caps` ([#8732](https://github.com/elementor/elementor/issues/8732))
+* Fix: Rotate control not working in Icon widget responsive modes ([#8753](https://github.com/elementor/elementor/issues/8753))
+* Fix: Counter widget start number greater than 999
+* Fix: Avoid migrating old Icon value if new one exists on import
+* Fix: Editor not being loaded when using an Icon from removed Icon Set
+
+= 2.6.7 - 2019-07-30 =
+* Tweak: Run `.htaccess` inspection only when needed
+* Tweak: UI glitches in `select2` control
+* Tweak: `get_style_depends` styles are now loaded in editor preview
+* Fix: Avoid false-positive editor loading error ([#8706](https://github.com/elementor/elementor/issues/8706))
+* Fix: Disable browser suggestions on panel elements search input ([#6581](https://github.com/elementor/elementor/issues/6581))
+* Fix: Contributor role can view other contributors draft and pending posts when Elementor is installed ([#8689](https://github.com/elementor/elementor/issues/8689))
+* Fix: Save changed before previewing a revision
+
+= 2.6.6 - 2019-07-23 =
+* Fix: WordPress editor is open by default ([#8628](https://github.com/elementor/elementor/issues/8628), [#8647](https://github.com/elementor/elementor/issues/8647))
+* Fix: Icon spacing disappeared after upgrading to Font Awesome 5 ([#8609](https://github.com/elementor/elementor/issues/8609))
+* Fix: Star icon appears instead of an unset icon in Icon Box widget after upgrading to Font Awesome 5 ([#8596](https://github.com/elementor/elementor/issues/8596))
+* Fix: Empty icon library by Using JS files instead of JSON for icon lists
+* Fix: `Preview Could Not be Loaded` message displayed if `$_SERVER['SERVER_SOFTWARE']` is empty
+* Fix: Navigator Indicators RTL UI glitches
 
 = 2.6.5 - 2019-07-18 =
 * Fix: Reverted the changes in Section and Column Vertical Alignment control
