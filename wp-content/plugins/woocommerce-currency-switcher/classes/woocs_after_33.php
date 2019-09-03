@@ -44,6 +44,7 @@ final class WOOCS {
     public $statistic = null;
 
     public function __construct() {
+ 
         $this->storage = new WOOCS_STORAGE(get_option('woocs_storage', 'transient'));
         $this->statistic = new WOOCS_STATISTIC();
 
@@ -1289,8 +1290,8 @@ final class WOOCS {
         if (!$suppress_filters) {
             $currencies = apply_filters('woocs_currency_data_manipulation', $currencies);
         }
-
-        if (count($currencies) > 2) {
+        
+         if (count($currencies) > 2) {
             $currencies = array_slice($currencies, 0, 2);
         }
 
@@ -1498,7 +1499,6 @@ final class WOOCS {
         if (isset($_REQUEST['woocs_raw_woocommerce_price_currency'])) {
             $this->current_currency = $_REQUEST['woocs_raw_woocommerce_price_currency'];
         }
-
         $currencies = $this->get_currencies();
 
         if (in_array($this->current_currency, $this->no_cents)/* OR $currencies[$this->current_currency]['hide_cents'] == 1 */) {
@@ -1520,10 +1520,12 @@ final class WOOCS {
                 if ($product->is_type('variation')) {
 
                     $tmp_val = $this->_get_product_fixed_price($product, 'variation', $price, $precision);
-                } else {
+                } elseif($product->is_type('variable')){
+                    $tmp_val=-1;
+                }else  {
                     $tmp_val = $this->_get_product_fixed_price($product, 'single', $price, $precision);
                 }
-
+            
                 if ((int) $tmp_val !== -1) {
                     $price = apply_filters('woocs_fixed_raw_woocommerce_price', $tmp_val, $product, $price);
                     $is_price_custom = true;
@@ -1546,6 +1548,8 @@ final class WOOCS {
             if ($product->is_type('variation')) {
 
                 $tmp_val = $this->_get_product_fixed_user_role_price($product, 'variation', $price, $precision);
+            } elseif($product->is_type('variable')){
+                    $tmp_val=-1;
             } else {
                 $tmp_val = $this->_get_product_fixed_user_role_price($product, 'single', $price, $precision);
             }
@@ -1568,8 +1572,6 @@ final class WOOCS {
                 }
             }
         }
-
-
         return apply_filters('woocs_raw_woocommerce_price', $price);
 
 //some hints for price rounding
@@ -1578,7 +1580,7 @@ final class WOOCS {
 
     //fix for only woo>=2.7 when multiple mode is activated and price is not sale - price still crossed out
     public function raw_woocommerce_price_sale($price, $product = NULL) {
-
+        
         if (!$this->is_multiple_allowed) {
             return $this->raw_woocommerce_price($price, $product);
         }
@@ -1764,7 +1766,9 @@ final class WOOCS {
 
         $product_id = $product->get_id();
 
-        $type = 'sale';
+       if (!$type) {
+            $type = $this->fixed_user_role->get_price_type($product, $price);
+        }
         $currency = "";
 
         $is_empty = $this->fixed_user_role->is_empty($product_id, $currency, $type);
@@ -2534,7 +2538,7 @@ final class WOOCS {
                     $request = esc_html__("Please use the API key", 'woocommerce-currency-switcher');
                     break;
                 }
-                //Ikzgf!!!!!!
+
                 $url = "http://apilayer.net/api/live?source={$from_Currency}&currencies={$to_Currency}&access_key={$key}&format=1";
 
                 if (function_exists('curl_init') AND $woocs_use_curl) {
@@ -2551,7 +2555,32 @@ final class WOOCS {
                     $request = sprintf(esc_html__("no data for %s", 'woocommerce-currency-switcher'), $this->escape($_REQUEST['currency_name']));
                 }
                 break;
+            case 'openexchangerates':
+                $from_Currency = urlencode($this->default_currency);
+                $to_Currency = urlencode($this->escape($_REQUEST['currency_name']));
 
+                $key = get_option('woocs_aggregator_key', '');
+                if (!$key) {
+                    $request = esc_html__("Please use the API key", 'woocommerce-currency-switcher');
+                    break;
+                }
+
+                $url = "https://openexchangerates.org/api/latest.json?base={$from_Currency}&symbolst={$to_Currency}&app_id={$key}";
+
+                if (function_exists('curl_init') AND $woocs_use_curl) {
+                    $res = $this->file_get_contents_curl($url);
+                } else {
+                    $res = file_get_contents($url);
+                }
+
+                $currency_data = json_decode($res, true);
+
+                $request = isset($currency_data['rates'][$to_Currency]) ? $currency_data['rates'][$to_Currency] : 0;
+
+                if (!$request) {
+                    $request = sprintf(esc_html__("no data for %s", 'woocommerce-currency-switcher'), $this->escape($_REQUEST['currency_name']));
+                }
+                break;
             case 'cryptocompare':
                 $from_Currency = urlencode($this->default_currency);
                 $to_Currency = urlencode($this->escape($_REQUEST['currency_name']));
@@ -2594,6 +2623,58 @@ final class WOOCS {
                 }
 
                 break;
+             case 'ron':
+                 // thank you, Maleabil
+                $url = 'https://www.bnr.ro/nbrfxrates.xml';
+                if (function_exists('curl_init') AND $woocs_use_curl) {
+                    $res = $this->file_get_contents_curl($url);
+                } else {
+                    $res = file_get_contents($url);
+                }
+                $currency_data = simplexml_load_string($res);
+                $rates = array();
+                if (empty($currency_data->Body->Cube)) {
+                    $request = sprintf(__("no data for %s", 'woocommerce-currency-switcher'), $this->escape($_REQUEST['currency_name']));
+                    break;
+                }
+                foreach ($currency_data->Body->Cube->Rate as $xml) {
+                    $att = (array) $xml->attributes();
+                    $final['rate'] = (string) $xml;
+                    $rates[$att['@attributes']['currency']] = floatval($final['rate']);
+                }
+                //***
+                if (!empty($rates)) {
+                    if ($this->default_currency != 'RON') {
+                        if ($_REQUEST['currency_name'] != 'RON') {
+                            if (isset($_REQUEST['currency_name'])) {
+                                $request =1/ floatval($rates[$this->escape($_REQUEST['currency_name'])] / $rates[$this->default_currency]);
+                            } else {
+                                $request = sprintf(__("no data for %s", 'woocommerce-currency-switcher'), $this->escape($_REQUEST['currency_name']));
+                            }
+                        } else {
+                            $request = 1 * ($rates[$this->default_currency]);
+                        }
+                    } else {
+                        if ($_REQUEST['currency_name'] != 'RON') {
+                            if ($rates[$_REQUEST['currency_name']] < 1) {
+                                $request = 1 / $rates[$_REQUEST['currency_name']];
+                            } else {
+                                $request = $rates[$_REQUEST['currency_name']];
+                            }
+                        } else {
+                            $request = 1;
+                        }
+                    }
+                } else {
+                    $request = sprintf(__("no data for %s", 'woocommerce-currency-switcher'), $this->escape($_REQUEST['currency_name']));
+                }
+                //***
+
+                if (!$request) {
+                    $request = sprintf(__("no data for %s", 'woocommerce-currency-switcher'), $this->escape($_REQUEST['currency_name']));
+                }
+                break;
+                
             default:
                 break;
         }
@@ -2993,6 +3074,7 @@ final class WOOCS {
             $price_html = $this->woocs_add_approx_to_price($price_html, $product);
         }
 
+        
         return $price_html;
     }
 
@@ -4384,7 +4466,7 @@ final class WOOCS {
                 ?>
                 <div class="notice notice-warning is-dismissible" id="woocs_alert_notice" data-nonce="<?php echo json_encode(wp_create_nonce('woocs_dissmiss_alert')) ?>">
                     <p class="plugin-card-woocommerce-currency-switcher">
-                        <?php printf(__("Hello! Looks like you using <b>WooCommerce Currency Switcher</b> for some time and I hope this software helped you with your business. If you happy with the plugin functionality and like Currency Switcher - rate please WOOCS with 5-stars, also share your opinion and ideas with us. Thank you!<br /> P.S. If you have troubles you can always ask %s about help. Thank you y bud zdrav!", 'woocommerce-currency-switcher'), "<a href='{$support_link}' target='_blank'>" . __('support', 'woocommerce-currency-switcher') . "</a>") ?>
+                        <?php printf(__("Hello! Looks like you using <b>WooCommerce Currency Switcher</b> for some time and I hope this software helped you with your business. If you happy with the plugin functionality and like Currency Switcher - rate please WOOCS with 5-stars, also share your opinion and ideas with us. Thank you!<br /> P.S. If you have troubles you can always ask %s about help. Thank you!", 'woocommerce-currency-switcher'), "<a href='{$support_link}' target='_blank'>" . __('support', 'woocommerce-currency-switcher') . "</a>") ?>
                     </p>
 
                     <hr />

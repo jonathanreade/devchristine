@@ -4,7 +4,7 @@
   Plugin URI: https://wordpress.org/plugins/wp-file-manager
   Description: Manage your WP files.
   Author: mndpsingh287
-  Version: 5.2
+  Version: 5.3
   Author URI: https://profiles.wordpress.org/mndpsingh287
   License: GPLv2
  **/
@@ -809,7 +809,7 @@ if (!class_exists('mk_file_folder_manager')):
             $mkcontent .= '<div class="r_wfmrs">';
             $mkcontent .= '<a class="close_fm_help fm_close_btn" href="javascript:void(0)" data-ct="rate_later" title="close">X</a><strong>WP File Manager</strong><p>We love and care about you. Our team is putting maximum efforts to provide you the best functionalities. It would be highly appreciable if you could spend a couple of seconds to give a Nice Review to the plugin to appreciate our efforts. So we can work hard to provide new features regularly :)</p><a class="close_fm_help fm_close_btn_1" href="javascript:void(0)" data-ct="rate_later" title="Remind me later">Later</a> <a class="close_fm_help fm_close_btn_2" href="https://wordpress.org/support/plugin/wp-file-manager/reviews/?filter=5" data-ct="rate_now" title="Rate us now" target="_blank">Rate Us</a> <a class="close_fm_help fm_close_btn_3" href="javascript:void(0)" data-ct="rate_never" title="Not interested">Never</a>';
             $mkcontent .= '</div></div>';
-            if (false === ($mk_fm_close_fm_help_c = get_transient('mk_fm_close_fm_help_c'))) {
+            if (false === ($mk_fm_close_fm_help_c_fm = get_option('mk_fm_close_fm_help_c_fm'))) {
                 echo apply_filters('the_content', $mkcontent);
             }
         }
@@ -826,8 +826,8 @@ if (!class_exists('mk_file_folder_manager')):
             } elseif ($what_to_do == 'rate_later') {
                 $expire_time = 15;
             }
-            if (false === ($mk_fm_close_fm_help_c = get_transient('mk_fm_close_fm_help_c'))) {
-                $set = set_transient('mk_fm_close_fm_help_c', 'mk_fm_close_fm_help_c', 60 * 60 * 24 * $expire_time);
+            if (false === ($mk_fm_close_fm_help_c_fm = get_option('mk_fm_close_fm_help_c_fm'))) {
+                $set = update_option('mk_fm_close_fm_help_c_fm', 'done');
                 if ($set) {
                     echo 'ok';
                 } else {

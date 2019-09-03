@@ -565,17 +565,39 @@ class Ocean_Extra_Theme_Panel {
             // Import/Export
             require_once( $dir . 'import-export.php' );
 
-            // Extensions
-            require_once( $dir . 'extensions.php' );
-
-            // Licenses
-            require_once( $dir . 'licenses.php' );
+            /**
+             * Since the SDK is initiated within the functions.php of the theme, make sure to check if the SDK is set only after the theme's setup.
+             *
+             * @author Vova Feldman
+             */
+            add_action( 'after_setup_theme', 'Ocean_Extra_Theme_Panel::load_addons_after_theme_setup' );
         }
 
         // Scripts panel - if minimum PHP 5.6
         if (version_compare(PHP_VERSION, '5.6', '>=')) {
             require_once( $dir . 'scripts.php' );
         }
+    }
+
+    /**
+     * Since the SDK is initiated within the functions.php of the theme, make sure to check if the SDK is set only after the theme's setup.
+     *
+     * @author Vova Feldman
+     */
+    public static function load_addons_after_theme_setup() {
+        if ( function_exists( 'owp_fs' ) ) {
+            // Don't add extensions and licenses when Freemius is in place.
+            return;
+        }
+
+        // Addons directory location
+        $dir = OE_PATH . '/includes/panel/';
+
+        // Extensions
+        require_once( $dir . 'extensions.php' );
+
+        // Licenses
+        require_once( $dir . 'licenses.php' );
     }
 
     /**

@@ -5,15 +5,15 @@
   Plugin URI: https://currency-switcher.com/
   Description: Currency Switcher for WooCommerce that allows to the visitors and customers on your woocommerce store site switch currencies and optionally apply selected currency on checkout
   Author: realmag777
-  Version: 1.2.9.1
+  Version: 1.3.0
   Requires at least: WP 4.1.0
   Tested up to: WP 5.2
   Text Domain: woocommerce-currency-switcher
   Domain Path: /languages
-  Forum URI: https://wordpress.org/support/plugin/woocommerce-currency-switcher/
+  Forum URI: https://pluginus.net/support/forum/woocs-woocommerce-currency-switcher-multi-currency-and-multi-pay-for-woocommerce/
   Author URI: https://pluginus.net/
   WC requires at least: 2.6.0
-  WC tested up to: 3.6
+  WC tested up to: 3.7
  */
 
 if (!defined('ABSPATH')) {
@@ -48,7 +48,7 @@ if (defined('DOING_AJAX')) {
     }
 }
 
-define('WOOCS_VERSION', '1.2.9.1');
+define('WOOCS_VERSION', '1.3.0');
 define('WOOCS_MIN_WOOCOMMERCE', '2.6');
 define('WOOCS_PATH', plugin_dir_path(__FILE__));
 define('WOOCS_LINK', plugin_dir_url(__FILE__));
@@ -62,7 +62,7 @@ include_once WOOCS_PATH . 'classes/fixed/fixed_amount.php';
 include_once WOOCS_PATH . 'classes/fixed/fixed_price.php';
 include_once WOOCS_PATH . 'classes/statistic.php';
 
-//19-07-2019
+//26-08-2019
 class WOOCS_STARTER {
 
     private $support_time = 1519919054; // Date of the old < 3.3 version support

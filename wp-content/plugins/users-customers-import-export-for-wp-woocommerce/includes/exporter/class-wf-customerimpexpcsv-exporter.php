@@ -73,7 +73,22 @@ class WF_CustomerImpExpCsv_Exporter {
         exit;
     }
 
-    public static function format_data($data) {
+    public static function format_data($data, $key) {
+
+        switch ($key) { 
+            case "user_login":
+            case "user_pass":
+            case "roles":
+                break;
+            default:
+                if(is_string($data) && in_array($data[0], array('=','+','-','@')) ){ // for avoid vulnerable to Remote Command Execution
+                    $data = ' '.$data;
+                }
+              
+        }
+        return $data;  
+        
+        
         //if (!is_array($data));
         //$data = (string) urldecode($data);
         $enc = mb_detect_encoding($data, 'UTF-8, ISO-8859-1', true);
@@ -101,7 +116,7 @@ class WF_CustomerImpExpCsv_Exporter {
         $user = get_user_by('id', $id);
         $customer_data = array();
         foreach ($csv_columns as $key) {
-            $customer_data[$key] = !empty($user->{$key}) ? maybe_serialize($user->{$key}) : '';
+            $customer_data[$key] = !empty($user->{$key}) ? self::format_data(maybe_serialize($user->{$key}),$key) : '';
         }
         $user_roles = (!empty($user->roles)) ? $user->roles : array();
         $customer_data['roles'] = implode(',', $user_roles);
